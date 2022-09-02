@@ -1,0 +1,22 @@
+name: Azure Static Web App IaC
+
+on: push
+
+env:
+  staticwebappname: rubicon-devday-swa
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ secrets.AZURE_RESOURCEGROUP }}
+          template: ./infra/static-web-app.yml
+          parameters: staticwebappname=${{ env.staticwebappname }}
