@@ -9,7 +9,7 @@ on:
       - "main"
 
 env:
-  staticwebappname: rubicon-devday-swa
+  STATICWEBAPPNAME: rubicon-devday-swa
 
 jobs:
   build-and-deploy:
@@ -25,4 +25,4 @@ jobs:
           subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           resourceGroupName: ${{ secrets.AZURE_RESOURCEGROUP }}
           template: ./infra/static-web-app.bicep
-          parameters: staticwebappname=${{ env.staticwebappname }}
+          parameters: staticwebappname="${{ env.STATICWEBAPPNAME }}"
