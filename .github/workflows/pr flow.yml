@@ -62,4 +62,4 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}   
           
-        run: az webapp deployment slot delete --resource-group ${{ secrets.AZURE_RESOURCEGROUP }} --name ${{ env.APPNAME }} --slot ${{ github.event.number }}
+      - run: az webapp deployment slot delete --resource-group ${{ secrets.AZURE_RESOURCEGROUP }} --name ${{ env.APPNAME }} --slot ${{ github.event.number }}
