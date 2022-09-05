@@ -1,4 +1,4 @@
-name: Azure Static Web App IaC
+name: Azure IaC
 
 on: workflow_dispatch
 
@@ -6,24 +6,6 @@ env:
   APPNAME: rubicon-devday-app
 
 jobs:
-  iac-swa:
-    name: IaC Static Web App
-    runs-on: ubuntu-latest
-    env: 
-      APPNAME: rubicon-devday-swa
-    steps:
-      - uses: actions/checkout@main
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - uses: azure/arm-deploy@v1
-        with:
-          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          resourceGroupName: ${{ secrets.AZURE_RESOURCEGROUP }}
-          template: ./infra/staticwebapp.bicep
-          parameters: staticwebappname="${{ env.APPNAME }}"
-
   iac-webapp:
     name: IaC App Service Web App
     runs-on: ubuntu-latest
