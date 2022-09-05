@@ -2,7 +2,7 @@ name: PR flow Static Web App
 
 on: 
   pull_request:
-    types: [ opened, reopened, closed ] 
+    types: [ opened, reopened, synchronize, closed ] 
 
 env:
   APPNAME: rubicon-devday-app
