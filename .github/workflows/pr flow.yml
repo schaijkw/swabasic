@@ -25,7 +25,7 @@ jobs:
         uses: azure/CLI@v1
         with:
             inlineScript: |
-                SWA_DEPLOYMENT_TOKEN=$(az staticwebapp secrets list -n ${{ secrets.SWA_NAME }} -o tsv --query properties.apiKey)
+                SWA_DEPLOYMENT_TOKEN=$(az staticwebapp secrets list -n ${{ env.STATICWEBAPPNAME  }} -o tsv --query properties.apiKey)
                 echo "::add-mask::$SWA_DEPLOYMENT_TOKEN"
                 echo SWA_DEPLOYMENT_TOKEN=$SWA_DEPLOYMENT_TOKEN >> $GITHUB_ENV
 
