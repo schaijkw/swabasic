@@ -1,6 +1,6 @@
 name: Azure Static Web App IaC
 
-workflow_dispatch:
+on: workflow_dispatch
 
 env:
   STATICWEBAPPNAME: rubicon-devday-swa
