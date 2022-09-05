@@ -53,6 +53,14 @@ jobs:
     runs-on: ubuntu-latest
     if: always() && github.event.action != 'closed' && github.event.action != 'opened'
     steps:
+      - name: Comment Pull Request
+        uses: thollander/actions-comment-pull-request@v1
+        with:
+          # Message that should be printed in the pull request
+          message: Awaiting deployment...
+          # Github token of the repository (automatically created by Github)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/checkout@v2.3.4
         
       - uses: azure/login@v1
@@ -67,10 +75,12 @@ jobs:
           slot-name: ${{ env.SLOTNAME }}
      
       - name: Comment Pull Request
-        uses: thollander/actions-comment-pull-request@master
+        uses: thollander/actions-comment-pull-request@v1
         with:
           # Message that should be printed in the pull request
           message: Created staging environment - https://${{ env.APPNAME }}-${{ env.SLOTNAME }}.azurewebsites.net/
+          # Replace placeholder
+          comment_includes: 'Awaiting deployment...'
           # Github token of the repository (automatically created by Github)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
