@@ -1,6 +1,9 @@
 name: Azure Static Web App IaC
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      
 
 env:
   APPNAME: rubicon-devday-app
