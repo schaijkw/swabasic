@@ -37,8 +37,19 @@ jobs:
             skip_app_build: true
             app_location: ./src
   
+  create-slot:
+    # if: github.event.action == 'opened'
+    runs-on:  ubuntu-latest
+    steps:
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - run: az webapp deployment slot create --resource-group ${{ secrets.AZURE_RESOURCEGROUP }} --name ${{ env.APPNAME }} --slot ${{ github.event.number }}
+
   deploy-webapp:
-    if: github.event.action != 'closed'
+    if: github.event.action != 'closed' && github.event.action != 'opened'
+    needs: create-slot
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.4
