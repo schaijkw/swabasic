@@ -6,6 +6,7 @@ on:
 
 env:
   APPNAME: rubicon-devday-app
+  SLOTNAME: ${{ github.event.number }}
 
 jobs:
   build-and-deploy:
@@ -38,14 +39,14 @@ jobs:
             app_location: ./src
   
   create-slot:
-    # if: github.event.action == 'opened'
+    if: github.event.action == 'opened'
     runs-on:  ubuntu-latest
     steps:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           
-      - run: az webapp deployment slot create --resource-group ${{ secrets.AZURE_RESOURCEGROUP }} --name ${{ env.APPNAME }} --slot ${{ github.event.number }}
+      - run: az webapp deployment slot create --resource-group ${{ secrets.AZURE_RESOURCEGROUP }} --name ${{ env.APPNAME }} --slot ${{ env.SLOTNAME }}
 
   deploy-webapp:
     if: github.event.action != 'closed' && github.event.action != 'opened'
@@ -63,7 +64,15 @@ jobs:
         with:
           app-name: ${{ env.APPNAME }}
           package: ./src
-          slot-name: ${{ github.event.number }}
+          slot-name: ${{ env.SLOTNAME }}
+     
+      - name: Comment Pull Request
+        uses: thollander/actions-comment-pull-request@master
+        with:
+          # Message that should be printed in the pull request
+          message: Created staging environment - https://${{ env.APPNAME }}-${{ env.SLOTNAME }}.azurewebsites.net/
+          # Github token of the repository (automatically created by Github)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   remove-slot:
     if: github.event.action == 'closed'
@@ -73,4 +82,4 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}   
           
-      - run: az webapp deployment slot delete --resource-group ${{ secrets.AZURE_RESOURCEGROUP }} --name ${{ env.APPNAME }} --slot ${{ github.event.number }}
+      - run: az webapp deployment slot delete --resource-group ${{ secrets.AZURE_RESOURCEGROUP }} --name ${{ env.APPNAME }} --slot ${{ env.SLOTNAME }}
