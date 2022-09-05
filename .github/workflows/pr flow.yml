@@ -2,7 +2,7 @@ name: PR flow WebApp
 
 on: 
   pull_request:
-    types: [ opened, reopened, synchronize, closed ] 
+    types: [ opened, synchronize, closed ] 
 
 env:
   APPNAME: rubicon-devday-app
@@ -22,7 +22,7 @@ jobs:
   deploy-webapp:
     needs: create-slot
     runs-on: ubuntu-latest
-    if: always() && github.event.action != 'closed' && github.event.action != 'opened'
+    if: always() && github.event.action != 'closed'
     steps:
       - name: Comment Pull Request
         uses: thollander/actions-comment-pull-request@v1
@@ -57,8 +57,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   remove-slot:
-    if: github.event.action == 'closed'
     runs-on: ubuntu-latest
+    if: github.event.action == 'closed'
     steps:
       - uses: azure/login@v1
         with:
