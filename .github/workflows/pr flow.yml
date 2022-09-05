@@ -49,9 +49,9 @@ jobs:
       - run: az webapp deployment slot create --resource-group ${{ secrets.AZURE_RESOURCEGROUP }} --name ${{ env.APPNAME }} --slot ${{ env.SLOTNAME }}
 
   deploy-webapp:
-    if: github.event.action != 'closed' && github.event.action != 'opened'
     needs: create-slot
     runs-on: ubuntu-latest
+    if: always() && github.event.action != 'closed' && github.event.action != 'opened'
     steps:
       - uses: actions/checkout@v2.3.4
         
