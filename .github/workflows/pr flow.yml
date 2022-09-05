@@ -58,6 +58,7 @@ jobs:
         with:
           # Message that should be printed in the pull request
           message: Awaiting deployment...
+          comment_includes: 'Created staging environment - https://${{ env.APPNAME }}-${{ env.SLOTNAME }}.azurewebsites.net/'
           # Github token of the repository (automatically created by Github)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
