@@ -23,7 +23,8 @@ jobs:
         with:
           script: |
             github.projects.createCard({
-              column_id: {{columnID}},
+              project-name: "Rubicon Demo Project",
+              column-name: "Title",
               content_id: context.payload.issue.id,
               content_type: "Issue"
             });
