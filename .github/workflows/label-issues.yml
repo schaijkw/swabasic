@@ -15,3 +15,14 @@ jobs:
               repo: context.repo.repo,
               labels: ['Triage']
             })
+
+      - name: Add issue to project board
+        if: contains(github.event.issue.labels.*.name, 'Triage')
+        uses: actions/github-script@v6
+        with:
+          script: |
+              github.projects.createCard({
+              column_id: {{columnID}},
+              content_id: context.payload.issue.id,
+              content_type: "Issue"
+              });
