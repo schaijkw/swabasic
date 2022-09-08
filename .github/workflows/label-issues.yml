@@ -1,3 +1,5 @@
+name: Autolabel workflow
+
 on:
   issues:
     types: [opened, labeled]
