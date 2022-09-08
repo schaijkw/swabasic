@@ -18,7 +18,7 @@ jobs:
             })
 
       - name: Add issue to project board
-        if: contains(github.rest.issue.labels.*.name, 'Triage')
+        if: contains(github.event.issue.labels.*.name, 'Triage')
         uses: actions/github-script@v6
         with:
           script: |
